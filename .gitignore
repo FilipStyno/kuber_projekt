@@ -1,0 +1,37 @@
+# Ignore Python bytecode files
+*.pyc
+*.pyo
+__pycache__/
+
+# Ignore virtual environment directories
+venv/
+env/
+
+# Ignore Flask instance and config files
+instance/
+config.py
+
+# Ignore environment variable files
+.env
+.env.*
+.venv
+.venv.*
+
+# Ignore log files
+*.log
+
+# Ignore database files
+*.sqlite3
+*.db
+
+# Ignore compiled files
+*.so
+*.o
+*.a
+*.out
+
+flaskapp.log
+flaskapp.db
+
+.DS Store
+Thumbs.db
