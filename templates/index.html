@@ -4,22 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seznam uživatelů</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
     <h1>Seznam uživatelů</h1>
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-            <ul>
+            <div>
                 {% for category, message in messages %}
-                    <li style="color: {{ 'red' if category == 'error' else 'green' }}">{{ message }}</li>
+                    <div class="alert {{ category }}">{{ message }}</div>
                 {% endfor %}
-            </ul>
+            </div>
         {% endif %}
     {% endwith %}
     
     <a href="{{ url_for('add_user') }}">Přidat uživatele</a>
     
-    <table border="1">
+    <table>
         <thead>
             <tr>
                 <th>#</th>
