@@ -1,52 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Seznam uživatelů</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <h1>Seznam uživatelů</h1>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <div>
-                {% for category, message in messages %}
-                    <div class="alert {{ category }}">{{ message }}</div>
-                {% endfor %}
-            </div>
-        {% endif %}
-    {% endwith %}
-    
-    <a href="{{ url_for('add_user') }}">Přidat uživatele</a>
-    
-    <table>
-        <thead>
+{% extends "base.html" %}
+
+{% block title %}Seznam uživatelů{% endblock %}
+
+{% block content %}
+<h2>Seznam uživatelů</h2>
+<table>
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Jméno</th>
+            <th>Příjmení</th>
+            <th>Akce</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
             <tr>
-                <th>#</th>
-                <th>Jméno</th>
-                <th>Příjmení</th>
-                <th>Akce</th>
+                <td>{{ user.id }}</td>
+                <td>{{ user.first_name }}</td>
+                <td>{{ user.last_name }}</td>
+                <td>
+                    <form action="{{ url_for('delete_user', user_id=user.id) }}" method="post" style="display:inline;">
+                        <button type="submit">Odstranit</button>
+                    </form>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            {% for user in users %}
-                <tr>
-                    <td>{{ loop.index }}</td>
-                    <td>{{ user.first_name }}</td>
-                    <td>{{ user.last_name }}</td>
-                    <td>
-                        <form action="{{ url_for('delete_user', user_id=loop.index0) }}" method="post" style="display:inline;">
-                            <button type="submit">Odstranit</button>
-                        </form>
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="4">Žádní uživatelé nejsou k dispozici.</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</body>
-</html>
+        {% else %}
+            <tr>
+                <td colspan="4">Žádní uživatelé nejsou k dispozici.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
