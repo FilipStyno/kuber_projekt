@@ -3,13 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Greeting App</title>
+    <title>Seznam uživatelů</title>
 </head>
 <body>
-    <h1>Enter Your Name</h1>
-    <form action="/greet" method="post">
-        <input type="text" name="name" placeholder="Your Name">
-        <button type="submit">Submit</button>
-    </form>
+    <h1>Seznam uživatelů</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+                {% for category, message in messages %}
+                    <li style="color: {{ 'red' if category == 'error' else 'green' }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    
+    <a href="{{ url_for('add_user') }}">Přidat uživatele</a>
+    
+    <table border="1">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Jméno</th>
+                <th>Příjmení</th>
+                <th>Akce</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ user.first_name }}</td>
+                    <td>{{ user.last_name }}</td>
+                    <td>
+                        <form action="{{ url_for('delete_user', user_id=loop.index0) }}" method="post" style="display:inline;">
+                            <button type="submit">Odstranit</button>
+                        </form>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">Žádní uživatelé nejsou k dispozici.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </body>
 </html>
